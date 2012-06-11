@@ -10,9 +10,15 @@
 #include <unistd.h> //include header for chdir()
 #include <sys/resource.h> //include header for getrusage()
 
-/*
- * 
- */
+struct rusage {
+    struct timeval ru_utime; /* user CPU time used */
+    struct timeval ru_stime; /* system CPU time used */
+    long   ru_minflt;        /* page reclaims (soft page faults) */
+    long   ru_majflt;        /* page faults (hard page faults) */
+    long   ru_nvcsw;         /* voluntary context switches */
+    long   ru_nivcsw;        /* involuntary context switches */
+}
+
 int main(int argc, char** argv) {
 
 	extern int errno;
@@ -21,10 +27,14 @@ int main(int argc, char** argv) {
 		
         //String processing @Fahad
 		
-		if (<#condition#>) {
+		if (array[0]==cd) {
 			//If the command is cd, call chdir(): see man page for calling parameters @Cary
 			//http://linux.die.net/man/3/chdir
-			chdir();
+			chdir(array[1]);
+			
+			if (errno==-1) {
+				fprintf(stderr, "Change directory failed");
+			}
 		}
 		
 		if else () {
@@ -62,6 +72,17 @@ void print () {
 	e) ru_majflt
 	f) ru_minflt
 	 */
+	int who = RUSAGE_SELF;
+	struct timeval tim; 
+	struct rusage usage;
+	getrusage(who, &usage);
 	
-	//getrusage(-1, 
+	int involuntarily = usage.ru_nivcsw;
+	printf("\t Preempted involuntary: %d .\n", involuntarily);
+	int voluntarily = usage.ru_nvcsw;
+	printf("\t Preempted involuntary: %d .\n", voluntarily);
+	int pagefault = usage.ru_majflt;
+	printf("\t Preempted involuntary: %d .\n", pagefault);
+	int pagefaultkernel = usage.ru_minflt;
+	printf("\t Preempted involuntary: %d .\n", pagefaultkernel);
 }
