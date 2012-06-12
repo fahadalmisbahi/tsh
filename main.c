@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h> //include header for chdir()
 #include <sys/resource.h> //include header for getrusage()
-
+#include <string.h> //include header for strtok()
 
 int main(int argc, char** argv) {
 
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
             int i=0;
             char inputbuffer[];// the string the user inputs
             char *strings[];// srting after divding each word ot token
-            char * cmd;
+            char *cmd;
             length = read (STDIN_FILENO, inputbuffer,MAX_LINE);
             if (length == 0) {// no text was entered
                 exit(0);
@@ -38,19 +38,17 @@ int main(int argc, char** argv) {
                 strings[i] = strtok (NULL," \t\n");
             }
 
-            char *test[];
-            test[0] = "cd";
-		if (test[0]=="cd") {
+		if (strings[0]=="cd") {
 			//If the command is cd, call chdir(): see man page for calling parameters @Cary
 			//http://linux.die.net/man/3/chdir
-			chdir(test[1]);
+			chdir(strings[1]);
 			
 			if (errno==-1) {
 				fprintf(stderr, "Change directory failed");
 			}
 		}
 		
-		if (test[0]=="exit") {
+		if (strings[0]=="exit") {
 			//If exit, then exit
 			return (EXIT_SUCCESS);
 		}
