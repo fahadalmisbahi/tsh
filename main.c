@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 }
 
 //Print function
-void print () {
+void print (struct rusage *usage) {
 	/*
 	 a)	The amount of CPU time used (both user and system time) (in milliseconds), 
 	 b)	The elapsed “wall-clock” time for the command to execute (in milliseconds), 
@@ -78,17 +78,19 @@ void print () {
 	a) timeval ru_utime, timeval ru_stime
 	b) 
 	 */
-	int who = RUSAGE_SELF;
-	struct timeval tim; 
+
+        //code idea source: http://www.unix.com/hp-ux/38937-getrusage.html
+    
+	printf("\t Preempted involuntary: %d .\n", usage.ru_nivcsw);    //c
+	printf("\t Preempted involuntary: %d .\n", usage.ru_nvcsw);     //d
+	printf("\t Preempted involuntary: %d .\n", usage.ru_majflt);    //e
+	printf("\t Preempted involuntary: %d .\n", usage.ru_minflt);    //f
+}
+
+void getusage () {
+    	int who = RUSAGE_SELF;
+	struct timeval tim;
 	struct rusage usage;
 	getrusage(who, &usage);
-	
-	int involuntarily = usage.ru_nivcsw;
-	printf("\t Preempted involuntary: %d .\n", involuntarily);
-	int voluntarily = usage.ru_nvcsw;
-	printf("\t Preempted involuntary: %d .\n", voluntarily);
-	int pagefault = usage.ru_majflt;
-	printf("\t Preempted involuntary: %d .\n", pagefault);
-	int pagefaultkernel = usage.ru_minflt;
-	printf("\t Preempted involuntary: %d .\n", pagefaultkernel);
+        print (usage);
 }
