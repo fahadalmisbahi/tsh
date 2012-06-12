@@ -17,27 +17,27 @@ int main(int argc, char** argv) {
 	
 	while (1) {
 
-int length;
-int i=0;
-char inputbuffer[];// the string the user inputs
-char *strings[];// srting after divding each word ot token
-char * cmd;
-length = read (STDIN_FILENO, inputbuffer,MAX_LINE);
- if (lenght == 0)// no text was entered
-{
-exit(0);
-}
-if (lenght<0)
-{
-exit(-1); // somthing went wrong
-}
-cmd= inputbuffer;
-strings[i] = strtok cmd," \t\n");
-while (strings[i]!= NULL)
-{
-i++;
-strings[i] = strtok (NULL," \t\n");
-}
+            int length;
+            int i=0;
+            char inputbuffer[];// the string the user inputs
+            char *strings[];// srting after divding each word ot token
+            char * cmd;
+            length = read (STDIN_FILENO, inputbuffer,MAX_LINE);
+            if (length == 0) {// no text was entered
+                exit(0);
+            }
+            if (length<0)
+            {
+                exit(-1); // somthing went wrong
+            }
+            cmd = inputbuffer;
+            strings[i] = (strtok cmd," \t\n");
+            while (strings[i]!= NULL)
+            {
+                i++;
+                strings[i] = strtok (NULL," \t\n");
+            }
+
             char *test[];
             test[0] = "cd";
 		if (test[0]=="cd") {
