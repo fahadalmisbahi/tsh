@@ -18,37 +18,37 @@ int main(int argc, char** argv) {
 	while (1) {
 
             int length;
-            int i=0;
-            char inputbuffer[];// the string the user inputs
-            char *strings[];// srting after divding each word ot token
+            int i = 0;
+            char inputbuffer[80];// the string the user inputs
+            char *strings[32];// srting after divding each word ot token
             char *cmd;
-            length = read (STDIN_FILENO, inputbuffer,MAX_LINE);
-            if (length == 0) {// no text was entered
+            length = read (STDIN_FILENO, inputbuffer,100);
+            /*if (length == 0) {// no text was entered
                 exit(0);
             }
             if (length<0)
             {
                 exit(-1); // somthing went wrong
-            }
+            }*/
             cmd = inputbuffer;
-            strings[i] = (strtok cmd," \t\n");
-            while (strings[i]!= NULL)
+            strings[i] = (strtok (cmd," \t\n"));
+            while (strings[i] != NULL)
             {
                 i++;
                 strings[i] = strtok (NULL," \t\n");
             }
 
-		if (strings[0]=="cd") {
+		if (strcmp(strings[0],"cd") == 0) {
 			//If the command is cd, call chdir(): see man page for calling parameters @Cary
 			//http://linux.die.net/man/3/chdir
 			chdir(strings[1]);
 			
-			if (errno==-1) {
-				fprintf(stderr, "Change directory failed");
+			if (errno != 0) {
+				fprintf(stderr, "Change directory failed.\n");
 			}
 		}
 		
-		if (strings[0]=="exit") {
+		if (strcmp(strings[0],"exit") == 0) {
 			//If exit, then exit
 			return (EXIT_SUCCESS);
 		}
