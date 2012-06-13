@@ -10,6 +10,10 @@
 #include <unistd.h> //include header for chdir()
 #include <sys/resource.h> //include header for getrusage()
 #include <string.h> //include header for strtok()
+#include <sys/wait.h> //include header for wait()
+#include <errno.h>
+
+#define MAX_LINE 80
 
 void print (struct rusage *usage) {
     /*
@@ -50,19 +54,19 @@ void getstats (void) {
 
 int main(void) {
 
-
-
-    extern int errno;
+    //extern int errno;
     //memcpy (inputbuffer, args, strlen(args)+1);
 
     while (1) {
+        
         int length;
         int i = 0;
-        char inputbuffer[80];// the string the user inputs
+        char inputbuffer[MAX_LINE];// the string the user inputs
 
         char *strings[32];// srting after divding each word ot token
         char *cmd;
-        length = read (STDIN_FILENO, inputbuffer,100);
+        fprintf(stdout, "Enter a command:\n");
+        length = read (STDIN_FILENO, inputbuffer,MAX_LINE);
 
         if (length == 0) {// no text was entered
             exit(0);
@@ -87,9 +91,9 @@ int main(void) {
             //http://linux.die.net/man/3/chdir
             chdir(strings[1]);
 
-            if (errno != 0) {
+            //if (errno != 0) {
                 //fprintf(stderr, "Change directory failed.\n");
-            }
+            //}
         }
 
         else if (strcmp(strings[0],"exit") == 0) {
@@ -115,7 +119,5 @@ int main(void) {
                 }
                 getstats();
             }
-
-        //getstats();
 	}
 }
