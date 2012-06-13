@@ -97,7 +97,7 @@ int main(char args[80]) {
 
             else {
                 pid_t pid;
-                int i;
+              //  int i;
                 pid = fork();
                 if (pid < 0) {                     /* error occurred */
                     fprintf(stderr, "execUS: Fork Failed");
