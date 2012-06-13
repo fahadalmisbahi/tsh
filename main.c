@@ -48,16 +48,18 @@ void getstats (void) {
     print (&usage);
 }
 
-int main(char args[80]) {
-    int length;
-    int i = 0;
+int main(void) {
 
-    char inputbuffer[80];// the string the user inputs
+
 
     extern int errno;
-    memcpy (inputbuffer, args, strlen(args)+1);
+    //memcpy (inputbuffer, args, strlen(args)+1);
 
     while (1) {
+        int length;
+        int i = 0;
+        char inputbuffer[80];// the string the user inputs
+
         char *strings[32];// srting after divding each word ot token
         char *cmd;
         length = read (STDIN_FILENO, inputbuffer,100);
@@ -86,16 +88,16 @@ int main(char args[80]) {
             chdir(strings[1]);
 
             if (errno != 0) {
-                fprintf(stderr, "Change directory failed.\n");
+                //fprintf(stderr, "Change directory failed.\n");
             }
         }
 
-            if (strcmp(strings[0],"exit") == 0) {
+        else if (strcmp(strings[0],"exit") == 0) {
                 //If exit, then exit
                 return (EXIT_SUCCESS);
             }
 
-            else {
+        else {
                 pid_t pid;
                 int i;
                 pid = fork();
@@ -111,7 +113,7 @@ int main(char args[80]) {
                 else {
                     execvp (strings[0],strings);
                 }
-
+                getstats();
             }
 
         //getstats();
